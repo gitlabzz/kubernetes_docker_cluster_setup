@@ -1,5 +1,9 @@
 #!/bin/bash
 echo "from https://balaskas.gr/blog/2022/08/31/creating-a-kubernetes-cluster-with-kubeadm-on-ubuntu-2204-lts/"
+echo "notes:"
+echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network"
+echo "https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model"
+echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/"
 
 echo "Tested to work with Ubuntu 22.04"
 echo "Disable firewall"
