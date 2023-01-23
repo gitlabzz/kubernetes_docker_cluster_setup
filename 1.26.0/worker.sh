@@ -70,4 +70,4 @@ sleep 1
 sudo kubeadm config images pull
 
 sleep 5
-sudo kubeadm join 172.16.240.137:6443 --token 5dnzeg.6876ug1j8v4o9hhh --discovery-token-ca-cert-hash sha256:341a7b737741d619695ad3fbf6fdfb54a0a72af722222f78b7e1fe97105e23c4
+sudo kubeadm join 172.16.240.139:6443 --token 5ajwla.w1u9z3vr058tlrrt --discovery-token-ca-cert-hash sha256:bccc379b2f6f8aedfdee89a007cfcea703a432283e854e1d7a7563254678f1c5

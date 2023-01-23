@@ -90,10 +90,12 @@ ls -la $HOME/.kube/config
 alias k="kubectl"
 
 sleep 1
-kubectl cluster-info
+echo "Installing calico"
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml -O
+kubectl apply -f calico.yaml
 
 sleep 1
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl cluster-info
 
 sleep 5
 kubectl get nodes -o wide
