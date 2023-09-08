@@ -16,7 +16,7 @@ sudo sed -i '/swapfile/d' /etc/fstab
 
 sleep 1
 echo "installing gnupg2, apt-transport-https, ca-certificates, curl, software-properties-common"
-sudo apt-get update && sudo apt-get install -y gnupg2 apt-transport-https ca-certificates curl software-properties-common
+sudo apt-get update && sudo apt-get install -y gnupg gnupg2 apt-transport-https ca-certificates curl software-properties-common lsb-release
 sleep 5
 
 sudo tee /etc/modules-load.d/kubernetes.conf <<EOF
@@ -77,4 +77,4 @@ sleep 1
 sudo kubeadm config images pull
 
 sleep 5
-sudo kubeadm join 172.16.240.139:6443 --token 5ajwla.w1u9z3vr058tlrrt --discovery-token-ca-cert-hash sha256:bccc379b2f6f8aedfdee89a007cfcea703a432283e854e1d7a7563254678f1c5
+sudo kubeadm join 172.16.240.147:6443 --token 33u9ml.dgb460afspd9t8rz --discovery-token-ca-cert-hash sha256:0e6f05ec184f29dae4ccc41e2a60ffb65eaf9123bc8847479ebd70848d93c1eb

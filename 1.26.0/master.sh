@@ -16,7 +16,7 @@ sudo sed -i '/swapfile/d' /etc/fstab
 
 sleep 1
 echo "installing gnupg2, apt-transport-https, ca-certificates, curl, software-properties-common"
-sudo apt-get update && sudo apt-get install -y gnupg2 apt-transport-https ca-certificates curl software-properties-common
+sudo apt-get update && sudo apt-get install -y gnupg gnupg2 apt-transport-https ca-certificates curl software-properties-common lsb-release
 sleep 5
 
 sudo tee /etc/modules-load.d/kubernetes.conf <<EOF
