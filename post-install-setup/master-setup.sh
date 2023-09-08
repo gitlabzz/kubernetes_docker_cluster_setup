@@ -83,7 +83,7 @@ sleep 10
 # Install NFS Provisioner
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 helm repo update
-helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=master --set nfs.path=/mnt/hgfs/tmp/nfs_share -n nfs-provisioner --create-namespace
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=master --set nfs.path=/home/dev/nfs_share -n nfs-provisioner --create-namespace
 sleep 10
 
 # Make NFS Provisioner default storage class
