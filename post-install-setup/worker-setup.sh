@@ -11,3 +11,8 @@ sleep 5
 #sudo fuser -kim /mnt/hgfs/tmp/client_nfs_share
 sudo umount ~/client_nfs_share/
 mount | grep client_nfs_share
+
+# Local Provisioner related
+sudo mkdir -p /opt/local-path-provisioner
+sudo chmod -R 777 /opt/local-path-provisioner
+sudo chown nobody:nogroup /opt/local-path-provisioner
