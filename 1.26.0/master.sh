@@ -57,20 +57,21 @@ containerd config default |
   sudo tee /etc/containerd/config.toml
 
 sleep 1
-sudo systemctl restart containerd.service
+sudo systemctl daemon-reload
+sudo systemctl enable containerd
+sudo systemctl restart containerd
 
-sleep 1
-sudo curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+# Install kubeadm, kubelet and kubectl
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-sleep 1
-sudo apt-add-repository -y "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-
-sleep 1
-sudo apt install -y kubelet kubeadm kubectl
-
-sleep 5
+sudo apt-get update
+sudo apt install -y kubeadm=1.27.1-00 kubelet=1.27.1-00 kubectl=1.27.1-00
+sudo apt-mark hold kubelet kubeadm kubectl
+sleep 2
 sudo systemctl daemon-reload
 sudo systemctl restart kubelet
+sudo systemctl enable kubelet
 
 sleep 1
 sudo kubeadm config images pull
@@ -78,7 +79,7 @@ sudo kubeadm config images pull
 sleep 5
 sudo kubeadm init --image-repository=registry.k8s.io --pod-network-cidr 192.168.0.0/16
 
-sleep 1
+sleep 60
 mkdir -p $HOME/.kube
 sleep 1
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

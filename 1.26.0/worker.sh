@@ -1,4 +1,10 @@
 #!/bin/bash
+echo "from https://balaskas.gr/blog/2022/08/31/creating-a-kubernetes-cluster-with-kubeadm-on-ubuntu-2204-lts/"
+echo "notes:"
+echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network"
+echo "https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-implement-the-kubernetes-networking-model"
+echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/"
+
 echo "Tested to work with Ubuntu 22.04"
 echo "Disable firewall"
 sudo ufw disable
@@ -51,20 +57,21 @@ containerd config default |
   sudo tee /etc/containerd/config.toml
 
 sleep 1
-sudo systemctl restart containerd.service
+sudo systemctl daemon-reload
+sudo systemctl enable containerd
+sudo systemctl restart containerd
 
-sleep 1
-sudo curl -sLo /etc/apt/trusted.gpg.d/kubernetes-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+# Install kubeadm, kubelet and kubectl
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-sleep 1
-sudo apt-add-repository -y "deb http://apt.kubernetes.io/ kubernetes-xenial main"
-
-sleep 1
-sudo apt install -y kubelet kubeadm kubectl
-
-sleep 5
+sudo apt-get update
+sudo apt install -y kubeadm=1.27.1-00 kubelet=1.27.1-00 kubectl=1.27.1-00
+sudo apt-mark hold kubelet kubeadm kubectl
+sleep 2
 sudo systemctl daemon-reload
 sudo systemctl restart kubelet
+sudo systemctl enable kubelet
 
 sleep 1
 sudo kubeadm config images pull
