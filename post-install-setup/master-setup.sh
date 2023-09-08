@@ -18,6 +18,7 @@ echo "source <(helm completion bash)" >> ~/.bashrc
 
 ### Install MetalLB
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.3/config/manifests/metallb-native.yaml
+sleep 10
 
 cat <<EOF | metal-lb-ip-range.yaml
 apiVersion: metallb.io/v1beta1
@@ -44,6 +45,7 @@ kubectl apply -f metal-lb-ip-range.yaml
 ### Install Nginx Ingress Using Helm
 echo "https://kubernetes.github.io/ingress-nginx/deploy/"
 helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+sleep 30
 helm list -A
 kubectl -n ingress-nginx get all
 echo "Ingress Controller Type: LoadBalancer External IP: 172.16.240.240"
@@ -76,15 +78,16 @@ sudo systemctl restart nfs-server
 sudo systemctl status nfs-server
 sudo systemctl enable nfs-server
 
+sleep 10
 
 # Install NFS Provisioner
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 helm repo update
 helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=master --set nfs.path=/mnt/hgfs/tmp/nfs_share -n nfs-provisioner --create-namespace
+sleep 10
 
 # Make NFS Provisioner default storage class
 kubectl patch storageclass nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
 
 # Install Local Path Provisioner
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
@@ -97,7 +100,7 @@ echo "sudo chown nobody:nogroup /opt/local-path-provisioner"
 # Metrics Server
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm upgrade --install metrics-server metrics-server/metrics-server --set apiService.insecureSkipTLSVerify=true
-slee 10
+sleep 10
 echo "Patch Metrics Server for worker nodes certificates SAN issue"
 #https://github.com/kubernetes-sigs/metrics-server/issues/196
 kubectl -n default patch deployment metrics-server --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]]'
