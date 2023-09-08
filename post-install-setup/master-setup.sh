@@ -97,7 +97,11 @@ echo "sudo chown nobody:nogroup /opt/local-path-provisioner"
 # Metrics Server
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 helm upgrade --install metrics-server metrics-server/metrics-server --set apiService.insecureSkipTLSVerify=true
-
+slee 10
+echo "Patch Metrics Server for worker nodes certificates SAN issue"
+#https://github.com/kubernetes-sigs/metrics-server/issues/196
+kubectl -n default patch deployment metrics-server --type=json -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]]'
+kubectl -n default rollout restart deployment metrics-server
 
 # Install yq
 VERSION=v4.27.5 && BINARY=yq_linux_amd64
