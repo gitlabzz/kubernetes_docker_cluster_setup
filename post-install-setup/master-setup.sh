@@ -18,9 +18,9 @@ echo "source <(helm completion bash)" >> ~/.bashrc
 
 ### Install MetalLB
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.3/config/manifests/metallb-native.yaml
-sleep 10
+sleep 30
 
-cat <<EOF | metal-lb-ip-range.yaml
+tee metal-lb-ip-range.yaml <<EOF
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
