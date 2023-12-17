@@ -6,6 +6,14 @@ echo "https://kubernetes.io/docs/concepts/cluster-administration/networking/#how
 echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/"
 
 echo "Tested to work with Ubuntu 22.04"
+
+sudo apt update -y
+sudo apt install iputils-ping -y
+sudo apt install net-tools -y
+sudo apt install vim -y
+sudo apt install ufw -y
+sudo sh -c 'hostname=$(hostname) && ip=$(hostname -I | cut -d" " -f1) && echo "$ip $hostname" >> /etc/hosts'
+
 echo "Disable firewall"
 sudo ufw disable
 echo "Disable swap"

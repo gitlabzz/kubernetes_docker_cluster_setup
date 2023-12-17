@@ -1,9 +1,6 @@
 #!/bin/bash
 echo "Post Installation setup"
 
-kubectl label nodes minion1 name=first
-kubectl label nodes minion2 name=second
-
 source <(kubectl completion bash)
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 
@@ -17,7 +14,10 @@ source <(helm completion bash)
 echo "source <(helm completion bash)" >> ~/.bashrc
 
 ### Install MetalLB
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.3/config/manifests/metallb-native.yaml
+#kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
+helm repo add metallb https://metallb.github.io/metallb
+helm install metallb metallb/metallb --namespace metallb-system --create-namespace
+
 sleep 30
 
 tee metal-lb-ip-range.yaml <<EOF
@@ -28,7 +28,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 172.16.240.240-172.16.240.250
+  - 192.168.226.140-192.168.226.150
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -48,7 +48,7 @@ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.git
 sleep 30
 helm list -A
 kubectl -n ingress-nginx get all
-echo "Ingress Controller Type: LoadBalancer External IP: 172.16.240.240"
+echo "Ingress Controller Type: LoadBalancer External IP: 192.168.226.140"
 #echo "172.16.240.240	nginx.example.com" | sudo tee -a /etc/hosts
 
 

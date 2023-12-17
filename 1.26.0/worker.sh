@@ -6,6 +6,9 @@ echo "https://kubernetes.io/docs/concepts/cluster-administration/networking/#how
 echo "https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/"
 
 echo "Tested to work with Ubuntu 22.04"
+
+
+
 echo "Disable firewall"
 sudo ufw disable
 echo "Disable swap"
@@ -77,4 +80,4 @@ sleep 1
 sudo kubeadm config images pull
 
 sleep 5
-sudo kubeadm join 172.16.240.147:6443 --token 33u9ml.dgb460afspd9t8rz --discovery-token-ca-cert-hash sha256:0e6f05ec184f29dae4ccc41e2a60ffb65eaf9123bc8847479ebd70848d93c1eb
+sudo kubeadm join 192.168.226.128:6443 --token go19h2.5u1alw1ehz92jusb --discovery-token-ca-cert-hash sha256:39cbbb274607dc89fde8b4ca586872074bf3caa841b2bf985432339b04308a83

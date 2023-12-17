@@ -2,6 +2,7 @@
 sudo ufw disable
 sudo apt install nfs-common -y
 mkdir -p ~/client_nfs_share
+### Remember to have master node resolvable or added in /etc/hosts ###
 sudo mount master:/home/dev/nfs_share ~/client_nfs_share
 mount | grep client_nfs_share
 
